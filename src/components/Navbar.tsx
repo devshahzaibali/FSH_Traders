@@ -179,7 +179,8 @@ const Navbar: React.FC = () => {
               <Image 
                 src="https://res.cloudinary.com/dn8bhbwie/image/upload/v1753115119/fsh-traders_g584tb.png" 
                 alt="FSH Traders Logo" 
-                fill 
+                width={44}
+                height={44}
                 className="rounded-full object-contain shadow-md" 
                 sizes="44px" 
                 priority
