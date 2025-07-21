@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { FiEdit, FiTrash2, FiPlus, FiMenu, FiX, FiPackage, FiUsers, FiShoppingCart, FiStar, FiMessageSquare, FiSettings, FiBarChart3 } from "react-icons/fi";
+import { FiEdit, FiTrash2, FiPackage, FiUsers, FiShoppingCart, FiBarChart3 } from "react-icons/fi";
 import { db } from '../../firebase';
 import { collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy } from "firebase/firestore";
 import { useAuth } from '../../components/AuthContext';
@@ -45,7 +45,6 @@ export default function AdminPanel() {
   const [uploading, setUploading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
   const [formError, setFormError] = useState('');
 
@@ -76,7 +75,7 @@ export default function AdminPanel() {
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    let processedValue: any = value;
+    let processedValue: string | number | boolean | string[] = value;
     
     if (name === 'price' || name === 'stock' || name === 'rating' || name === 'totalReviews' || name === 'discount') {
       processedValue = parseFloat(value) || 0;

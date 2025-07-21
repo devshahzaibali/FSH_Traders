@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { categories } from '@/data/categories';
+import Image from 'next/image';
 
 const CategoryGrid: React.FC = () => {
   return (
@@ -17,9 +18,11 @@ const CategoryGrid: React.FC = () => {
           {categories.map((category, index) => (
             <div key={`category-${index}`} className="group block bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col items-center py-6">
               <div className="w-20 h-20 mb-3 rounded-full overflow-hidden border-4 border-blue-100 shadow">
-                <img
+                <Image
                   src={category.image}
                   alt={category.name}
+                  width={80}
+                  height={80}
                   className="w-full h-full object-cover"
                 />
               </div>

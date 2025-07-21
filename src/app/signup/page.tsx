@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useAuth } from '@/components/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
@@ -80,8 +81,12 @@ export default function SignupPage() {
       });
       setSuccess('Account created successfully! Redirecting...');
       setTimeout(() => router.push('/account'), 1500);
-    } catch (err: any) {
-      setError(err.message || 'Failed to create account');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || 'Failed to create account');
+      } else {
+        setError('Failed to create account');
+      }
     } finally {
       setLoading(false);
     }
@@ -94,8 +99,12 @@ export default function SignupPage() {
       await loginWithGoogle();
       setSuccess('Signed in with Google successfully!');
       setTimeout(() => router.push('/account'), 1500);
-    } catch (err: any) {
-      setError(err.message || 'Failed to sign in with Google');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || 'Failed to sign in with Google');
+      } else {
+        setError('Failed to sign in with Google');
+      }
     } finally {
       setLoading(false);
     }
@@ -106,7 +115,13 @@ export default function SignupPage() {
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <div className="flex justify-center mb-4">
-            <img src="/fsh-traders.png" alt="FSH Traders Logo" className="h-16 w-16 rounded-full shadow-lg" />
+            <Image
+              src="/fsh-traders.png"
+              alt="FSH Traders Logo"
+              width={64}
+              height={64}
+              className="h-16 w-16 rounded-full shadow-lg"
+            />
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h2>
           <p className="text-gray-600">Join FSH Traders for premium products</p>

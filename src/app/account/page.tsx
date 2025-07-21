@@ -8,10 +8,9 @@ import { db } from '../../firebase';
 import { collection, query, where, onSnapshot, orderBy } from 'firebase/firestore';
 import React from 'react';
 import { Product } from '@/data/products';
+import Image from 'next/image';
 
 const AccountPage = () => {
-  const [activeTab, setActiveTab] = useState('dashboard');
-  const [editMode, setEditMode] = useState(false);
   const [userData, setUserData] = useState({
     name: 'Alex Johnson',
     email: 'alex.johnson@example.com',
@@ -30,11 +29,8 @@ const AccountPage = () => {
     ],
   });
 
-  const { addToCart } = useCart();
   const { user, logout } = useAuth();
   const [orders, setOrders] = useState<any[]>([]);
-  const router = useRouter();
-  const [addedId, setAddedId] = useState<string | null>(null);
   
   useEffect(() => {
     if (!user) return;
@@ -54,16 +50,6 @@ const AccountPage = () => {
       </main>
     );
   }
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setUserData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSave = () => {
-    setEditMode(false);
-    // Here you would typically make an API call to save the data
-  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -132,7 +118,7 @@ const AccountPage = () => {
                     {order.items.map((item: Product) => (
                       <div key={item.id} className="flex items-center gap-3">
                         {item.image ? (
-                          <img src={item.image} alt={item.name} className="h-10 w-10 object-contain rounded bg-gray-100" />
+                          <Image src={item.image} alt={item.name} width={40} height={40} className="h-10 w-10 object-contain rounded bg-gray-100" />
                         ) : (
                           <div className="h-10 w-10 bg-gray-100 flex items-center justify-center text-gray-400 rounded">No Image</div>
                         )}

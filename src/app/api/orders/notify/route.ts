@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     });
 
     // Calculate total
-    const total = order.items.reduce((sum: number, item: any) => 
+    const total = order.items.reduce((sum: number, item: Product) => 
       sum + (item.price * item.quantity), 0
     );
 
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
                 </tr>
               </thead>
               <tbody>
-                ${order.items.map((item: any) => `
+                ${order.items.map((item: Product) => `
                   <tr>
                     <td style="padding: 10px; border-bottom: 1px solid #f1f5f9;">${item.name}</td>
                     <td style="padding: 10px; text-align: center; border-bottom: 1px solid #f1f5f9;">${item.quantity}</td>
@@ -164,7 +164,7 @@ export async function POST(request: NextRequest) {
                   </tr>
                 </thead>
                 <tbody>
-                  ${order.items.map((item: any) => `
+                  ${order.items.map((item: Product) => `
                     <tr>
                       <td style="padding: 10px; border-bottom: 1px solid #f1f5f9;">${item.name}</td>
                       <td style="padding: 10px; text-align: center; border-bottom: 1px solid #f1f5f9;">${item.quantity}</td>

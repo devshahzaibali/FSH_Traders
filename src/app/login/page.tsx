@@ -26,14 +26,18 @@ export default function LoginPage() {
     setSuccess('');
     try {
       await login(email, password);
-    } catch (err: any) {
-      if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
-        setError('❌ Wrong email or password. Please check your credentials and try again.');
-        // Clear form fields
-        setEmail('');
-        setPassword('');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        if (err.message.includes('user-not-found') || err.message.includes('wrong-password')) {
+          setError('❌ Wrong email or password. Please check your credentials and try again.');
+          // Clear form fields
+          setEmail('');
+          setPassword('');
+        } else {
+          setError(err.message);
+        }
       } else {
-        setError(err.message || 'Login failed');
+        setError('Login failed');
       }
     }
   };
@@ -42,8 +46,12 @@ export default function LoginPage() {
     setError('');
     try {
       await loginWithGoogle();
-    } catch (err: any) {
-      setError(err.message || 'Google login failed');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || 'Google login failed');
+      } else {
+        setError('Google login failed');
+      }
     }
   };
 
@@ -59,8 +67,12 @@ export default function LoginPage() {
         setIsForgotPassword(false);
         setSuccess('');
       }, 3000);
-    } catch (err: any) {
-      setError(err.message || 'Failed to send reset email');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || 'Failed to send reset email');
+      } else {
+        setError('Failed to send reset email');
+      }
     }
   };
 

@@ -5,6 +5,7 @@ import { useAuth } from './AuthContext';
 import { FaTwitter, FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa';
 import { FiMail } from 'react-icons/fi';
 import { useState } from 'react';
+import Image from 'next/image';
 
 export default function Footer() {
   const { user } = useAuth();
@@ -88,7 +89,7 @@ export default function Footer() {
           {/* Brand info */}
           <div className="col-span-2 lg:col-span-1">
             <div className="flex items-center space-x-3 mb-4">
-              <img 
+              <Image 
                 src="/fsh-traders.png" 
                 alt="FSH Traders Logo" 
                 className="h-10 w-10 rounded-full shadow-lg" 
