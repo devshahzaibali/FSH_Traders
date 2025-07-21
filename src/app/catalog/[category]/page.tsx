@@ -3,16 +3,16 @@ export const dynamic = 'force-dynamic';
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useCart } from '@/components/CartContext';
-import { useAuth } from '@/components/AuthContext';
+import { useCart } from '../../../components/CartContext';
+import { useAuth } from '../../../components/AuthContext';
 import { db } from '../../../firebase';
-import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
+import { collection, onSnapshot, query, orderBy, doc, getDoc } from 'firebase/firestore';
 import Link from 'next/link';
 import Image from 'next/image';
 import { use } from 'react';
 import { HeartIcon as HeartIconOutline } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
-import { useWishlist } from '@/components/WishlistContext';
+import { useWishlist } from '../../../components/WishlistContext';
 
 interface CategoryPageProps {
   params: { category: string };
