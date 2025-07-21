@@ -12,15 +12,30 @@ import Link from 'next/link';
 // Define an OrderItem type that extends Product with quantity
 type OrderItem = Product & { quantity: number };
 
+type Order = {
+  id: string;
+  items: OrderItem[];
+  status?: string;
+  createdAt?: any;
+  [key: string]: any;
+};
+
 const AccountPage = () => {
   const { user, logout } = useAuth();
-  const [orders, setOrders] = useState<OrderItem[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   
   useEffect(() => {
     if (!user) return;
     const q = query(collection(db, 'orders'), where('userId', '==', user.uid), orderBy('createdAt', 'desc'));
     const unsub = onSnapshot(q, (snapshot) => {
-      setOrders(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setOrders(snapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          ...data,
+          items: (data.items || []).map((item: any) => ({ ...item }))
+        };
+      }));
     });
     return () => unsub();
   }, [user]);
