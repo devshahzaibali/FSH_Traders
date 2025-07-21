@@ -9,7 +9,7 @@ import { useWishlist } from '../../../components/WishlistContext';
 import { useRouter } from 'next/navigation';
 import { db } from '../../../firebase';
 import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
-import { FiStar, FiTruck, FiShield, FiRotateCcw, FiHeart, FiShare2, FiMinus, FiPlus, FiShoppingCart } from 'react-icons/fi';
+import { FiStar, FiTruck, FiShield, FiRotateCcw, FiShare2, FiMinus, FiPlus, FiShoppingCart } from 'react-icons/fi';
 import Image from 'next/image';
 import { HeartIcon as HeartIconOutline } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
@@ -46,7 +46,7 @@ const ProductDetailPage: React.FC = () => {
   const { user } = useAuth();
   const router = useRouter();
   const [addedToCart, setAddedToCart] = useState(false);
-  const { addToWishlist, removeFromWishlist, toggleWishlist, isWishlisted, wishlist } = useWishlist();
+  const { toggleWishlist, isWishlisted, wishlist } = useWishlist();
   const [wishlistMsg, setWishlistMsg] = useReactState<string | null>(null);
   const [shareMsg, setShareMsg] = useReactState<string | null>(null);
 

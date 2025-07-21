@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { products } from '@/data/products';
 import { db } from '../firebase';
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
 import { useAuth } from '../components/AuthContext';
@@ -21,7 +20,6 @@ interface Product {
 const HeroSection: React.FC = () => {
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState<Product[]>([]);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [currentFeature, setCurrentFeature] = useState(0);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const { user, logout } = useAuth();
@@ -46,12 +44,10 @@ const HeroSection: React.FC = () => {
     '/slider p/p0009.jpg',
   ];
 
-  const [currentSlide, setCurrentSlide] = useState(0);
-
   // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      // setIsScrolled(window.scrollY > 50); // This line was removed
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -68,7 +64,7 @@ const HeroSection: React.FC = () => {
   // Slider rotation effect
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % sliderImages.length);
+      // setCurrentSlide((prev) => (prev + 1) % sliderImages.length); // This line was removed
     }, 2000);
     return () => clearInterval(interval);
   }, [sliderImages.length]);

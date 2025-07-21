@@ -33,7 +33,7 @@ const AccountPage = () => {
         return {
           id: doc.id,
           ...data,
-          items: (data.items || []).map((item: any) => ({ ...item }))
+          items: (data.items || []).map((item: OrderItem) => ({ ...item }))
         };
       }));
     });

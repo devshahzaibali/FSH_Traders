@@ -33,9 +33,6 @@ const CatalogPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [products, setProducts] = useState<Product[]>([]);
   const { addToCart } = useCart();
-  const { user } = useAuth();
-  const router = useRouter();
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [search, setSearch] = useState('');
   const { toggleWishlist, isWishlisted } = useWishlist();
 
@@ -49,7 +46,7 @@ const CatalogPage: React.FC = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % sliderImages.length);
+      // setCurrentSlide((prev) => (prev + 1) % sliderImages.length); // This line was removed
     }, 2000);
     return () => clearInterval(interval);
   }, []);

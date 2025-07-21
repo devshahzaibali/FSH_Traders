@@ -11,7 +11,7 @@ import { Product } from '@/data/products';
 
 const HomeProducts: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const { addToWishlist, removeFromWishlist, toggleWishlist, isWishlisted } = useWishlist();
+  const { toggleWishlist, isWishlisted } = useWishlist();
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -85,20 +85,4 @@ const HomeProducts: React.FC = () => {
                 </button>
               </div>
               <Link 
-                href={`/product/${product.id}`}
-                className="block w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white text-center py-2.5 px-4 rounded-lg text-sm font-medium transition-all duration-300 shadow-sm hover:shadow-md"
-              >
-                View Details
-              </Link>
-            </div>
-          </div>
-        ))}
-      </div>
-      {products.length === 0 && (
-        <div className="text-center text-gray-500 mt-12">No products found.</div>
-      )}
-    </section>
-  );
-};
-
-export default HomeProducts; 
+                href={`/product/${product.id}`

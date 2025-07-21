@@ -58,7 +58,7 @@ export default function SyncProductsPage() {
       } else {
         setMessage('❌ Failed to sync products. Please try again.');
       }
-    } catch (error: unknown) {
+    } catch {
       setMessage('❌ Error syncing products. Please try again.');
     } finally {
       setSyncing(false);

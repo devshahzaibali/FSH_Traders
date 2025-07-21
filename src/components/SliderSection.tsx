@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 const sliderImages = [
   '/slider/pexels-dexplanet-1628026.jpg',
@@ -24,7 +25,7 @@ export default function SliderSection() {
     <div className="w-screen h-screen flex flex-col items-center justify-center mb-10 relative left-1/2 right-1/2 -translate-x-1/2">
       <div className="relative w-full h-screen rounded-none overflow-hidden shadow-lg border border-blue-200 bg-white">
         {sliderImages.map((img, idx) => (
-          <img
+          <Image
             key={img}
             src={img}
             alt={`Slider Image ${idx + 1}`}

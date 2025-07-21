@@ -3,7 +3,7 @@ import { db } from '../../../firebase';
 import { collection, addDoc, getDocs, deleteDoc } from 'firebase/firestore';
 import { products } from '@/data/products';
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
     // Clear existing products
     const existingProducts = await getDocs(collection(db, 'products'));
