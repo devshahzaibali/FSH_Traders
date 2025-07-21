@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useCart } from '../../../components/CartContext';
 import { useAuth } from '../../../components/AuthContext';
 import { db } from '../../../firebase';
-import { collection, onSnapshot, query, orderBy, doc, getDoc } from 'firebase/firestore';
+import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
 import Link from 'next/link';
 import Image from 'next/image';
 import { use } from 'react';
@@ -15,14 +15,10 @@ import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 import { useWishlist } from '../../../components/WishlistContext';
 import { Product } from '@/data/products';
 
-interface CategoryPageProps {
-  params: { category: string };
-}
-
 const CategoryPage: React.FC<{ params: Promise<{ category: string }> }> = ({ params }) => {
   const { category } = use(params);
   const [products, setProducts] = useState<Product[]>([]);
-  const { addToWishlist, removeFromWishlist, toggleWishlist, isWishlisted } = useWishlist();
+  const { toggleWishlist, isWishlisted } = useWishlist();
   const { addToCart } = useCart();
   const { user } = useAuth();
   const router = useRouter();

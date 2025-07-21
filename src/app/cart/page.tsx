@@ -1,12 +1,12 @@
 'use client';
 import React, { useState } from 'react';
-import Image from 'next/image';
 import Footer from '@/components/Footer';
 import { useCart } from '@/components/CartContext';
 import { db } from '../../firebase';
 import { useAuth } from '@/components/AuthContext';
 import LoginRequired from '@/components/LoginRequired';
 import { collection, addDoc } from 'firebase/firestore';
+import Link from 'next/link';
 
 const CartPage = () => {
   const { cart, updateQuantity, removeFromCart, total, clearCart } = useCart();
@@ -251,9 +251,9 @@ const CartPage = () => {
             )}
           </button>
           <div className="mt-3 text-center">
-            <a href="/catalog" className="text-blue-600 hover:text-blue-800 text-sm">
+            <Link href="/catalog" className="text-blue-600 hover:text-blue-800 text-sm">
               Continue Shopping
-            </a>
+            </Link>
           </div>
         </div>
       </footer>

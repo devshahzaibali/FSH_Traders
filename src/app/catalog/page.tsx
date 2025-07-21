@@ -37,7 +37,7 @@ const CatalogPage: React.FC = () => {
   const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [search, setSearch] = useState('');
-  const { addToWishlist, removeFromWishlist, toggleWishlist, isWishlisted } = useWishlist();
+  const { toggleWishlist, isWishlisted } = useWishlist();
 
   useEffect(() => {
     const q = query(collection(db, 'products'), orderBy('name'));
