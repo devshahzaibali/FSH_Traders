@@ -3,8 +3,9 @@ export const dynamic = 'force-dynamic';
 
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { useCart } from '@/components/CartContext';
-import { useAuth } from '@/components/AuthContext';
+import { useCart } from '../../../components/CartContext';
+import { useAuth } from '../../../components/AuthContext';
+import { useWishlist } from '../../../components/WishlistContext';
 import { useRouter } from 'next/navigation';
 import { db } from '../../../firebase';
 import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
@@ -12,7 +13,6 @@ import { FiStar, FiTruck, FiShield, FiRotateCcw, FiHeart, FiShare2, FiMinus, FiP
 import Image from 'next/image';
 import { HeartIcon as HeartIconOutline } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
-import { useWishlist } from '@/components/WishlistContext';
 import { useState as useReactState } from 'react';
 
 interface Product {
@@ -367,38 +367,8 @@ const ProductDetailPage: React.FC = () => {
                 <FiShoppingCart className="w-5 h-5" />
                 <span>{addedToCart ? 'Added to Cart!' : 'Add to Cart'}</span>
               </button>
-              
-              <div className="flex space-x-3">
-                <button className="flex-1 flex items-center justify-center space-x-2 py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-                  <FiHeart className="w-4 h-4" />
-                  <span className="text-sm">Wishlist</span>
-                </button>
-                <button className="flex-1 flex items-center justify-center space-x-2 py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                  onClick={async () => {
-                    const url = window.location.href;
-                    if (navigator.share) {
-                      try {
-                        await navigator.share({ title: product.name, url });
-                        setShareMsg('Shared!');
-                      } catch {}
-                    } else {
-                      try {
-                        await navigator.clipboard.writeText(url);
-                        setShareMsg('Link copied!');
-                      } catch {
-                        setShareMsg('Failed to copy');
-                      }
-                    }
-                    setTimeout(() => setShareMsg(null), 1200);
-                  }}
-                >
-                  <FiShare2 className="w-4 h-4" />
-                  <span className="text-sm">Share</span>
-                </button>
-                {shareMsg && (
-                  <span className="ml-2 text-xs text-blue-600 animate-pulse">{shareMsg}</span>
-                )}
-              </div>
+              {/* Removed duplicate Wishlist and Share buttons here */}
+              <div className="flex space-x-3"></div>
             </div>
 
             {/* Product Features */}
