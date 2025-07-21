@@ -36,10 +36,10 @@ export default function AdminPanel() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [form, setForm] = useState<Omit<Product, 'id'>>({ 
-    name: "", price: 0, category: "", image: "", description: "",
+    name: "", price: 0, category: "", categoryId: "", image: "", description: "",
     stock: 0, rating: 4.5, reviewCount: 0,
-    shipping: "Free shipping on orders over $50", returnPolicy: "30-day return policy",
-    features: [], images: [], discount: 0, isFeatured: false, isActive: true, createdAt: undefined,
+    images: [], discount: 0, featured: false, createdAt: undefined,
+    sku: "", slug: "",
   });
   const [editingId, setEditingId] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -79,10 +79,8 @@ export default function AdminPanel() {
     
     if (name === 'price' || name === 'stock' || name === 'rating' || name === 'reviewCount' || name === 'discount') {
       processedValue = parseFloat(value) || 0;
-    } else if (name === 'isFeatured' || name === 'isActive') {
+    } else if (name === 'featured') {
       processedValue = value === 'true';
-    } else if (name === 'features') {
-      processedValue = value.split(',').map(f => f.trim()).filter(f => f);
     } else if (name === 'images') {
       processedValue = value.split(',').map(img => img.trim()).filter(img => img);
     }
@@ -110,10 +108,10 @@ export default function AdminPanel() {
         await addDoc(collection(db, "products"), { ...form, createdAt: new Date() });
       }
       setForm({ 
-        name: "", price: 0, category: "", image: "", description: "",
+        name: "", price: 0, category: "", categoryId: "", image: "", description: "",
         stock: 0, rating: 4.5, reviewCount: 0,
-        shipping: "Free shipping on orders over $50", returnPolicy: "30-day return policy",
-        features: [], images: [], discount: 0, isFeatured: false, isActive: true, createdAt: undefined,
+        images: [], discount: 0, featured: false, createdAt: undefined,
+        sku: "", slug: "",
       });
     } catch (err) {
       setFormError("Error saving product: " + err);
@@ -123,14 +121,11 @@ export default function AdminPanel() {
 
   const handleEdit = (product: Product) => {
     setForm({
-      name: product.name, price: product.price, category: product.category,
+      name: product.name, price: product.price, category: product.category, categoryId: product.categoryId || "",
       image: product.image, description: product.description || "", stock: product.stock || 0,
       rating: product.rating || 4.5, reviewCount: product.reviewCount || 0,
-      shipping: product.shipping || "Free shipping on orders over $50",
-      returnPolicy: product.returnPolicy || "30-day return policy",
-      features: product.features || [], images: product.images || [],
-      discount: product.discount || 0, isFeatured: product.isFeatured || false,
-      isActive: product.isActive !== false, createdAt: product.createdAt,
+      images: product.images || [], discount: product.discount || 0, featured: product.featured || false, createdAt: product.createdAt,
+      sku: product.sku || "", slug: product.slug || "",
     });
     setEditingId(product.id);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -440,46 +435,6 @@ export default function AdminPanel() {
                         className="border border-gray-300 rounded px-4 py-2 w-full"
                       />
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Product Features</label>
-                      <input
-                        type="text"
-                        name="features"
-                        value={Array.isArray(form.features) ? form.features.join(', ') : ''}
-                        onChange={handleInput}
-                        placeholder="e.g., 5G, Face ID, Wireless charging, Water resistant - Product features (comma separated)"
-                        className="border border-gray-300 rounded px-4 py-2 w-full"
-                      />
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Policies */}
-                <div className="border-b border-gray-200 pb-4">
-                  <h3 className="text-lg font-semibold text-gray-800 mb-4">Policies & Information</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Shipping Policy</label>
-                      <input 
-                        type="text"
-                        name="shipping"
-                        value={form.shipping}
-                        onChange={handleInput}
-                        placeholder="e.g., Free shipping on orders over $50 - Shipping policy"
-                        className="border border-gray-300 rounded px-4 py-2 w-full"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Return Policy</label>
-                      <input
-                        type="text"
-                        name="returnPolicy"
-                        value={form.returnPolicy}
-                        onChange={handleInput}
-                        placeholder="e.g., 30-day return policy - Return policy details"
-                        className="border border-gray-300 rounded px-4 py-2 w-full"
-                      />
-                    </div>
                   </div>
                 </div>
                 
@@ -490,25 +445,13 @@ export default function AdminPanel() {
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Product Type</label>
                       <select
-                        name="isFeatured"
-                        value={form.isFeatured ? 'true' : 'false'}
+                        name="featured"
+                        value={form.featured ? 'true' : 'false'}
                         onChange={handleInput}
                         className="border border-gray-300 rounded px-4 py-2 w-full"
                       >
                         <option value="false">Regular Product</option>
                         <option value="true">Featured Product (shown on homepage)</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Product Status</label>
-                      <select
-                        name="isActive"
-                        value={form.isActive ? 'true' : 'false'}
-                        onChange={handleInput}
-                        className="border border-gray-300 rounded px-4 py-2 w-full"
-                      >
-                        <option value="true">Active (visible to customers)</option>
-                        <option value="false">Inactive (hidden from customers)</option>
                       </select>
                     </div>
                   </div>

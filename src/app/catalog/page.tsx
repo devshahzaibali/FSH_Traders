@@ -39,7 +39,7 @@ const CatalogPage: React.FC = () => {
   useEffect(() => {
     const q = query(collection(db, 'products'), orderBy('name'));
     const unsub = onSnapshot(q, (snapshot) => {
-      setProducts(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setProducts(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Product)));
     });
     return () => unsub();
   }, []);

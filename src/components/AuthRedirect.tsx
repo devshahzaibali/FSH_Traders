@@ -11,7 +11,7 @@ export default function AuthRedirect({ children }: { children: React.ReactNode }
   // Redirect to login for protected routes
   useEffect(() => {
     const protectedRoutes = ['/admin', '/account', '/contact', '/cart', '/checkout'];
-    if (!loading && !user && protectedRoutes.includes(pathname)) {
+    if (!loading && !user && typeof pathname === "string" && protectedRoutes.includes(pathname)) {
       router.replace('/login');
     }
   }, [user, loading, pathname, router]);

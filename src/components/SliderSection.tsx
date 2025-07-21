@@ -29,6 +29,8 @@ export default function SliderSection() {
             key={img}
             src={img}
             alt={`Slider Image ${idx + 1}`}
+            width={1920}
+            height={1080}
             className={`absolute top-0 left-0 w-full h-full object-contain transition-opacity duration-700 bg-white ${currentSlide === idx ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
             style={{transitionProperty: 'opacity'}}
             draggable={false}

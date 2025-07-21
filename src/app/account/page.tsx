@@ -16,8 +16,8 @@ type Order = {
   id: string;
   items: OrderItem[];
   status?: string;
-  createdAt?: any;
-  [key: string]: any;
+  createdAt?: Date | { toDate: () => Date } | null;
+  [key: string]: unknown;
 };
 
 const AccountPage = () => {
@@ -102,7 +102,15 @@ const AccountPage = () => {
                 <div key={order.id} className="border rounded-lg p-4">
                   <div className="flex justify-between items-center mb-2">
                     <span className="font-semibold text-blue-700">Order #{order.id.slice(-6)}</span>
-                    <span className="text-gray-500 text-sm">{order.createdAt?.toDate ? order.createdAt.toDate().toLocaleString() : ''}</span>
+                    <span className="text-gray-500 text-sm">
+  {order.createdAt
+    ? (typeof order.createdAt === 'object' && order.createdAt !== null && 'toDate' in order.createdAt
+        ? (order.createdAt as { toDate: () => Date }).toDate().toLocaleString()
+        : order.createdAt instanceof Date
+          ? order.createdAt.toLocaleString()
+          : '')
+    : ''}
+</span>
                   </div>
                   <div className="flex items-center gap-2 mb-2">
                     <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold 
@@ -130,7 +138,9 @@ const AccountPage = () => {
                       </div>
                     ))}
                   </div>
-                  <div className="text-right mt-2 font-bold text-blue-900">Total: ${isNaN(order.total) ? '0.00' : order.total.toFixed(2)}</div>
+                  <div className="text-right mt-2 font-bold text-blue-900">
+  Total: ${typeof order.total === 'number' && !isNaN(order.total) ? order.total.toFixed(2) : '0.00'}
+</div>
                 </div>
               ))}
               </div>

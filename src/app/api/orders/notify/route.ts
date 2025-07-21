@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import type { Product } from '@/data/products';
+type OrderItem = Product & { quantity: number };
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,7 +25,7 @@ export async function POST(request: NextRequest) {
     });
 
     // Calculate total
-    const total = order.items.reduce((sum: number, item: Product) => 
+    const total = order.items.reduce((sum: number, item: OrderItem) => 
       sum + (item.price * item.quantity), 0
     );
 
@@ -78,7 +80,7 @@ export async function POST(request: NextRequest) {
                 </tr>
               </thead>
               <tbody>
-                ${order.items.map((item: Product) => `
+                ${order.items.map((item: OrderItem) => `
                   <tr>
                     <td style="padding: 10px; border-bottom: 1px solid #f1f5f9;">${item.name}</td>
                     <td style="padding: 10px; text-align: center; border-bottom: 1px solid #f1f5f9;">${item.quantity}</td>
@@ -164,7 +166,7 @@ export async function POST(request: NextRequest) {
                   </tr>
                 </thead>
                 <tbody>
-                  ${order.items.map((item: Product) => `
+                  ${order.items.map((item: OrderItem) => `
                     <tr>
                       <td style="padding: 10px; border-bottom: 1px solid #f1f5f9;">${item.name}</td>
                       <td style="padding: 10px; text-align: center; border-bottom: 1px solid #f1f5f9;">${item.quantity}</td>

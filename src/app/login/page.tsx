@@ -187,7 +187,7 @@ export default function LoginPage() {
             </div>
 
             <p className="mt-6 text-center text-gray-600">
-              Don't have an account?{' '}
+              Don&apos;t have an account?{' '}
               <a href="/signup" className="text-blue-600 hover:text-blue-800 hover:underline font-medium">
                 Sign up
               </a>
@@ -218,7 +218,7 @@ export default function LoginPage() {
                     <p className="font-medium text-green-800 mb-1">Reset link sent successfully!</p>
                     <p className="text-green-700">{success}</p>
                     <p className="text-green-600 text-xs mt-2">
-                      💡 <strong>Tip:</strong> If you don't see the email, check your spam/junk folder
+                      💡 <strong>Tip:</strong> If you don&apos;t see the email, check your spam/junk folder
                     </p>
                   </div>
                 </div>

@@ -33,10 +33,20 @@ interface Product {
   isActive?: boolean;
 }
 
+type ProductWithRequiredFields = Product & {
+  categoryId: string;
+  featured: boolean;
+  sku: string;
+  slug: string;
+  description: string;
+  stock: number;
+  reviewCount?: number;
+};
+
 const ProductDetailPage: React.FC = () => {
   const params = useParams();
-  const productId = params.id as string;
-  const [product, setProduct] = useState<Product | null>(null);
+  const productId = params && 'id' in params ? params.id as string : "";
+  const [product, setProduct] = useState<ProductWithRequiredFields | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<string>('');
@@ -52,7 +62,7 @@ const ProductDetailPage: React.FC = () => {
 
   // Helper to sync wishlist to Firestore if logged in
   const syncWishlistToFirestore = async (add: boolean) => {
-    if (user && user.uid && product.id) {
+    if (user && user.uid && product && product.id) {
       const userRef = doc(db, 'users', user.uid);
       try {
         await updateDoc(userRef, {
@@ -72,7 +82,7 @@ const ProductDetailPage: React.FC = () => {
         const docSnap = await getDoc(docRef);
         
         if (docSnap.exists()) {
-          const productData = { id: docSnap.id, ...docSnap.data() } as Product;
+          const productData = { id: docSnap.id, ...docSnap.data() } as ProductWithRequiredFields;
           setProduct(productData);
           setSelectedImage(productData.image || '');
         } else {
@@ -98,7 +108,16 @@ const ProductDetailPage: React.FC = () => {
     }
     
     if (product) {
-      addToCart(product, quantity);
+      const safeProduct: ProductWithRequiredFields = {
+        ...product,
+        categoryId: (product as ProductWithRequiredFields).categoryId || product.category || "",
+        featured: (product as ProductWithRequiredFields).featured || false,
+        sku: (product as ProductWithRequiredFields).sku || "",
+        slug: (product as ProductWithRequiredFields).slug || "",
+        description: product.description || "",
+        stock: typeof product.stock === "number" ? product.stock : 0
+      };
+      addToCart(safeProduct, quantity);
       setAddedToCart(true);
       setTimeout(() => setAddedToCart(false), 2000);
     }
@@ -129,7 +148,7 @@ const ProductDetailPage: React.FC = () => {
         <div className="text-center">
           <div className="text-6xl mb-4">😞</div>
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Product Not Found</h1>
-          <p className="text-gray-600 mb-6">The product you're looking for doesn't exist or has been removed.</p>
+          <p className="text-gray-600 mb-6">The product you&apos;re looking for doesn&apos;t exist or has been removed.</p>
           <button
             onClick={() => router.push('/catalog')}
             className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded"
@@ -241,7 +260,7 @@ const ProductDetailPage: React.FC = () => {
                 <div className="flex items-center">
                   <FiStar className="text-yellow-400 w-5 h-5" />
                   <span className="ml-1 text-gray-600">
-                    {product.rating || 4.5} ({product.totalReviews || 0} reviews)
+                    {product.rating || 4.5} ({product.reviewCount ?? 0} reviews)
                   </span>
                 </div>
                 <span className="text-gray-500">|</span>
@@ -292,7 +311,7 @@ const ProductDetailPage: React.FC = () => {
                   <span className="text-sm">Share</span>
                 </button>
                 {wishlistMsg && (
-                  <span className="ml-2 text-xs text-pink-600 animate-pulse">{wishlistMsg}</span>
+                  <span className="ml-2 text-xs text-pink-600 animate-pulse">{wishlistMsg.replace(/'/g, "&apos;")}</span>
                 )}
                 {shareMsg && (
                   <span className="ml-2 text-xs text-blue-600 animate-pulse">{shareMsg}</span>
@@ -398,7 +417,7 @@ const ProductDetailPage: React.FC = () => {
                   <FiShield className="w-5 h-5 text-blue-600" />
                   <div>
                     <div className="font-medium text-gray-900">Warranty</div>
-                    <div className="text-sm text-gray-600">{product.warranty || '2-year guarantee'}</div>
+                    <div className="text-sm text-gray-600">2-year guarantee</div>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
@@ -476,7 +495,7 @@ const ProductDetailPage: React.FC = () => {
                   </div>
                   <div>
                     <span className="font-medium text-gray-900">Reviews:</span>
-                    <span className="ml-2 text-gray-700">{product.totalReviews || 0}</span>
+                    <span className="ml-2 text-gray-700">{product.reviewCount ?? 0}</span>
                   </div>
                 </div>
               </div>

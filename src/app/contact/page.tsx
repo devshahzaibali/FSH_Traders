@@ -85,7 +85,7 @@ export default function ContactPage() {
     return (
       <LoginRequired 
         title="Contact Page Login Required"
-        message="Please log in to send us a message. We'd love to hear from you!"
+        message="Please log in to send us a message. We&apos;d love to hear from you!"
       />
     );
   }
@@ -97,7 +97,7 @@ export default function ContactPage() {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Contact Us</h1>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Have questions, feedback, or need assistance? We'd love to hear from you!
+            Have questions, feedback, or need assistance? We&apos;d love to hear from you!
             </p>
           </div>
 
@@ -175,7 +175,7 @@ export default function ContactPage() {
                 <div>
                   <h3 className="font-medium text-gray-900">How do I track my order?</h3>
                   <p className="text-gray-600 text-sm mt-1">
-                    You can track your order by logging into your account and visiting the "My Orders" section.
+                    You can track your order by logging into your account and visiting the &quot;My Orders&quot; section.
                   </p>
                       </div>
                 
