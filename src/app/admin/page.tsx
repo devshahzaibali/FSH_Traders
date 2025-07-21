@@ -37,7 +37,7 @@ export default function AdminPanel() {
   const [users, setUsers] = useState<User[]>([]);
   const [form, setForm] = useState<Omit<Product, 'id'>>({ 
     name: "", price: 0, category: "", image: "", description: "",
-    stock: 0, rating: 4.5, totalReviews: 0, warranty: "2-year guarantee",
+    stock: 0, rating: 4.5, reviewCount: 0, warranty: "2-year guarantee",
     shipping: "Free shipping on orders over $50", returnPolicy: "30-day return policy",
     features: [], images: [], discount: 0, isFeatured: false, isActive: true, createdAt: undefined,
   });
@@ -77,7 +77,7 @@ export default function AdminPanel() {
     const { name, value } = e.target;
     let processedValue: string | number | boolean | string[] = value;
     
-    if (name === 'price' || name === 'stock' || name === 'rating' || name === 'totalReviews' || name === 'discount') {
+    if (name === 'price' || name === 'stock' || name === 'rating' || name === 'reviewCount' || name === 'discount') {
       processedValue = parseFloat(value) || 0;
     } else if (name === 'isFeatured' || name === 'isActive') {
       processedValue = value === 'true';
@@ -111,7 +111,7 @@ export default function AdminPanel() {
       }
       setForm({ 
         name: "", price: 0, category: "", image: "", description: "",
-        stock: 0, rating: 4.5, totalReviews: 0, warranty: "2-year guarantee",
+        stock: 0, rating: 4.5, reviewCount: 0, warranty: "2-year guarantee",
         shipping: "Free shipping on orders over $50", returnPolicy: "30-day return policy",
         features: [], images: [], discount: 0, isFeatured: false, isActive: true, createdAt: undefined,
       });
@@ -125,7 +125,7 @@ export default function AdminPanel() {
     setForm({
       name: product.name, price: product.price, category: product.category,
       image: product.image, description: product.description || "", stock: product.stock || 0,
-      rating: product.rating || 4.5, totalReviews: product.totalReviews || 0,
+      rating: product.rating || 4.5, reviewCount: product.reviewCount || 0,
       warranty: product.warranty || "2-year guarantee",
       shipping: product.shipping || "Free shipping on orders over $50",
       returnPolicy: product.returnPolicy || "30-day return policy",
@@ -361,8 +361,8 @@ export default function AdminPanel() {
                       <label className="block text-sm font-medium text-gray-700 mb-1">Total Reviews</label>
                       <input
                         type="number"
-                        name="totalReviews"
-                        value={form.totalReviews}
+                        name="reviewCount"
+                        value={form.reviewCount}
                         onChange={handleInput}
                         placeholder="e.g., 125 - Number of reviews"
                         min="0"
