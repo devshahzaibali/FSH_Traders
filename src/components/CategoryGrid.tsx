@@ -16,7 +16,11 @@ const CategoryGrid: React.FC = () => {
         
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
           {categories.map((category, index) => (
-            <div key={`category-${index}`} className="group block bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col items-center py-6">
+            <Link
+              key={`category-${index}`}
+              href={`/catalog/${category.name.toLowerCase().replace(/ & | /g, '-').replace(/[^a-z0-9-]/g, '')}`}
+              className="group block bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col items-center py-6 cursor-pointer"
+            >
               <div className="w-20 h-20 mb-3 rounded-full overflow-hidden border-4 border-blue-100 shadow">
                 <Image
                   src={category.image}
@@ -29,7 +33,7 @@ const CategoryGrid: React.FC = () => {
               <div className="text-gray-900 font-semibold text-base text-center px-2 drop-shadow-lg">
                 {category.name}
               </div>
-            </div>
+            </Link>
           ))}
         </div>
         <div className="flex justify-center mt-8">

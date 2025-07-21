@@ -7,6 +7,7 @@ import CategoryGrid from "@/components/CategoryGrid";
 import { useAuth } from '@/components/AuthContext';
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import BackButton from '@/components/BackButton';
 
 const SliderSection = dynamic(() => import('../components/SliderSection'), { ssr: false });
 
@@ -51,7 +52,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center w-full min-h-screen bg-white">
+    <div className="flex flex-col items-center w-full min-h-screen bg-white pt-20">
       <Navbar />
       <HeroSection />
       {user && role === 'admin' && (

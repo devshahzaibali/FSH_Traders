@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/components/AuthContext';
 import { useRouter } from 'next/navigation';
 import LoginRequired from '@/components/LoginRequired';
+import BackButton from '@/components/BackButton';
 
 export default function ContactPage() {
   const { user, loading } = useAuth();
@@ -91,8 +92,9 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-20 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
+        <div className="text-left mb-4"><BackButton /></div>
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Contact Us</h1>
@@ -116,7 +118,7 @@ export default function ContactPage() {
                   </div>
                   <div className="ml-4">
                     <h3 className="text-lg font-medium text-gray-900">Email</h3>
-                    <p className="text-gray-600">support@fshtraders.com</p>
+                    <p className="text-gray-600">techzaibx@gmail.com</p>
               </div>
             </div>
 
@@ -128,7 +130,7 @@ export default function ContactPage() {
                       </div>
                       <div className="ml-4">
                     <h3 className="text-lg font-medium text-gray-900">Phone</h3>
-                    <p className="text-gray-600">+1 (555) 123-4567</p>
+                    <p className="text-gray-600">+923705329372</p>
                       </div>
                     </div>
 
@@ -142,9 +144,7 @@ export default function ContactPage() {
                       <div className="ml-4">
                     <h3 className="text-lg font-medium text-gray-900">Address</h3>
                     <p className="text-gray-600">
-                      123 Commerce Street<br />
-                      Business District, BD 12345<br />
-                      United States
+                      shahdara lahore, punjab
                     </p>
                       </div>
                     </div>

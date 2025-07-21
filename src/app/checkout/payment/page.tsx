@@ -4,9 +4,11 @@ import { useAuth } from '@/components/AuthContext';
 import { db } from '@/firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import Link from "next/link";
+import { useCart } from '@/components/CartContext';
 
 export default function PaymentPage() {
   const { user } = useAuth();
+  const { cart, total, clearCart } = useCart();
   const [address, setAddress] = useState({
     fullName: '',
     street: '',
@@ -18,6 +20,7 @@ export default function PaymentPage() {
   const [payOnDelivery, setPayOnDelivery] = useState(true);
   const [success, setSuccess] = useState('');
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
 
   const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -27,11 +30,61 @@ export default function PaymentPage() {
   const handlePay = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
+    setError('');
     // Save address to user profile if logged in
     if (user && user.uid) {
       await setDoc(doc(db, 'users', user.uid), { address }, { merge: true });
     }
-    setSuccess('Order placed! Your address has been saved. Payment will be collected on delivery.');
+    // Send order confirmation email and save order
+    try {
+      const customer = {
+        firstName: address.fullName.split(' ')[0] || user?.displayName?.split(' ')[0] || user?.email?.split('@')[0] || 'Customer',
+        lastName: address.fullName.split(' ').slice(1).join(' ') || user?.displayName?.split(' ').slice(1).join(' ') || '',
+        email: user?.email || '',
+        phone: '',
+        address: `${address.street}, ${address.city}, ${address.state}, ${address.zip}, ${address.country}`,
+      };
+      // Save order to Firestore
+      const orderId = `${Date.now()}-${Math.floor(Math.random()*10000)}`;
+      await setDoc(doc(db, 'orders', orderId), {
+        userId: user?.uid,
+        userEmail: user?.email,
+        items: cart,
+        total,
+        status: 'pending',
+        createdAt: new Date(),
+        address,
+        paymentMethod: payOnDelivery ? 'Pay on Delivery' : 'Card',
+      });
+      // Send order confirmation email
+      const response = await fetch('/api/orders/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          order: {
+            id: orderId,
+            userId: user?.uid,
+            userEmail: user?.email,
+            items: cart,
+            total,
+            status: 'pending',
+            createdAt: new Date(),
+            address,
+            paymentMethod: payOnDelivery ? 'Pay on Delivery' : 'Card',
+          },
+          customer,
+        }),
+      });
+      if (response.ok) {
+        setSuccess('Order placed! Confirmation email sent. Your address has been saved. Payment will be collected on delivery.');
+        clearCart();
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || 'Failed to send order confirmation email.');
+      }
+    } catch (err) {
+      setError('Failed to place order. Please try again.');
+    }
     setSaving(false);
   };
 
@@ -68,6 +121,7 @@ export default function PaymentPage() {
           </button>
         </form>
         {success && <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded text-green-700">{success}</div>}
+        {error && <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded text-red-700">{error}</div>}
         <Link href="/" className="block mt-6 text-blue-600 hover:underline">Continue Shopping</Link>
       </div>
     </div>

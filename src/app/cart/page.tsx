@@ -7,6 +7,8 @@ import { useAuth } from '@/components/AuthContext';
 import LoginRequired from '@/components/LoginRequired';
 import { collection, addDoc } from 'firebase/firestore';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import BackButton from '@/components/BackButton';
 
 const CartPage = () => {
   const { cart, updateQuantity, removeFromCart, total, clearCart } = useCart();
@@ -15,6 +17,7 @@ const CartPage = () => {
   const [orderError, setOrderError] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [processingStep, setProcessingStep] = useState('');
+  const router = useRouter();
 
   // Show loading state
   if (loading) {
@@ -38,124 +41,16 @@ const CartPage = () => {
     );
   }
 
-  const handleCheckout = async () => {
+  const handleProceedToPayment = () => {
     setOrderError('');
     setOrderSuccess(false);
-    setIsProcessing(true);
-    
-    if (!user) {
-      setOrderError('You must be logged in to checkout.');
-      setIsProcessing(false);
-      return;
-    }
-    if (cart.length === 0) {
-      setOrderError('Your cart is empty.');
-      setIsProcessing(false);
-      return;
-    }
-    try {
-      // Send cart checkout notification email
-      setProcessingStep('Sending cart notification...');
-      const response = await fetch('/api/cart/notify', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          cart,
-          customer: {
-            firstName: user.displayName?.split(' ')[0] || user.email?.split('@')[0] || 'Customer',
-            lastName: user.displayName?.split(' ').slice(1).join(' ') || '',
-            email: user.email,
-            phone: '',
-            address: '',
-            city: '',
-            state: '',
-            zipCode: ''
-          },
-          total
-        }),
-      });
-
-      if (response.ok) {
-        console.log('Cart checkout notification sent successfully');
-      } else {
-        const errorData = await response.json();
-        console.error('Failed to send cart notification:', errorData);
-      }
-
-      // Save order to Firestore
-      setProcessingStep('Saving order to database...');
-      const orderRef = await addDoc(collection(db, 'orders'), {
-        userId: user.uid,
-        userEmail: user.email,
-        items: cart,
-        total,
-        status: 'pending',
-        createdAt: new Date(),
-      });
-
-      // Send order confirmation email
-      setProcessingStep('Sending order confirmation...');
-      const orderResponse = await fetch('/api/orders/notify', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          order: {
-            id: orderRef.id,
-            userId: user.uid,
-            userEmail: user.email,
-            items: cart,
-            total,
-            status: 'pending',
-            createdAt: new Date(),
-            customer: {
-              firstName: user.displayName?.split(' ')[0] || user.email?.split('@')[0] || 'Customer',
-              lastName: user.displayName?.split(' ').slice(1).join(' ') || '',
-              email: user.email,
-              phone: '',
-              address: '',
-              city: '',
-              state: '',
-              zipCode: ''
-            }
-          },
-          customer: {
-            firstName: user.displayName?.split(' ')[0] || user.email?.split('@')[0] || 'Customer',
-            lastName: user.displayName?.split(' ').slice(1).join(' ') || '',
-            email: user.email,
-            phone: '',
-            address: '',
-            city: '',
-            state: '',
-            zipCode: ''
-          }
-        }),
-      });
-
-      if (orderResponse.ok) {
-        console.log('Order confirmation email sent successfully');
-      } else {
-        const errorData = await orderResponse.json();
-        console.error('Failed to send order confirmation email:', errorData);
-      }
-
-      setProcessingStep('Finalizing order...');
-      setOrderSuccess(true);
-      clearCart();
-    } catch (err) {
-      console.error('Checkout error:', err);
-      setOrderError('Failed to place order. Please try again.');
-    } finally {
-      setIsProcessing(false);
-    }
+    router.push('/checkout/payment');
   };
 
   return (
-    <div className="min-h-screen min-w-full bg-white flex flex-col">
+    <div className="min-h-screen min-w-full bg-white flex flex-col pt-20">
       {/* Header */}
+      <div className="w-full max-w-2xl mx-auto px-4"><BackButton /></div>
       <header className="bg-white py-4 px-6 border-b border-gray-200">
         <h1 className="text-2xl font-bold text-gray-900">Your Shopping Cart</h1>
         <p className="text-gray-500">{cart.length} item{cart.length !== 1 ? 's' : ''} in your cart</p>
@@ -238,17 +133,10 @@ const CartPage = () => {
                 ? 'bg-gray-400 cursor-not-allowed' 
                 : 'bg-blue-600 hover:bg-blue-700 text-white'
             }`} 
-            onClick={handleCheckout}
+            onClick={handleProceedToPayment}
             disabled={isProcessing}
           >
-            {isProcessing ? (
-              <div className="flex items-center justify-center space-x-2">
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                <span>{processingStep}</span>
-              </div>
-            ) : (
-              'Proceed to Checkout'
-            )}
+            {'Proceed to Payment'}
           </button>
           <div className="mt-3 text-center">
             <Link href="/catalog" className="text-blue-600 hover:text-blue-800 text-sm">

@@ -14,6 +14,7 @@ import { HeartIcon as HeartIconOutline } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 import { useWishlist } from '@/components/WishlistContext';
 import { Product } from '@/data/products';
+import BackButton from '@/components/BackButton';
 
 const SliderSection = dynamic(() => import('../../components/SliderSection'), { ssr: false });
 
@@ -60,8 +61,9 @@ const CatalogPage: React.FC = () => {
   );
 
   return (
-    <div className="w-full min-h-screen bg-white py-10 px-4">
+    <div className="w-full min-h-screen bg-white pt-20">
       <div className="max-w-7xl mx-auto">
+        <BackButton />
         <h1 className="text-3xl md:text-4xl font-bold text-blue-900 mb-8">Product Catalog</h1>
         
         {/* Category Filter as Buttons */}

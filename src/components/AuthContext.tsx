@@ -48,8 +48,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (email: string, password: string) => {
     setLoading(true);
-    await signInWithEmailAndPassword(auth, email, password);
-    setLoading(false);
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error: any) {
+      if (
+        error.code === 'auth/user-not-found' ||
+        error.code === 'auth/wrong-password' ||
+        error.code === 'auth/invalid-credential'
+      ) {
+        throw new Error('Email or password is incorrect');
+      }
+      throw new Error('Failed to login. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const signup = async (email: string, password: string, userData: Record<string, unknown>) => {
