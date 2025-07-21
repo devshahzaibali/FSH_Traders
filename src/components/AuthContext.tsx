@@ -9,7 +9,7 @@ interface AuthContextType {
   role: 'admin' | 'customer' | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  signup: (email: string, password: string, userData: any) => Promise<void>;
+  signup: (email: string, password: string, userData: Record<string, unknown>) => Promise<void>;
   logout: () => Promise<void>;
   loginWithGoogle: () => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
@@ -52,7 +52,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLoading(false);
   };
 
-  const signup = async (email: string, password: string, userData: any) => {
+  const signup = async (email: string, password: string, userData: Record<string, unknown>) => {
     setLoading(true);
     const cred = await createUserWithEmailAndPassword(auth, email, password);
     await setDoc(doc(db, 'users', cred.user.uid), { 

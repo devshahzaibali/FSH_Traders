@@ -7,45 +7,26 @@ import { collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, order
 import { useAuth } from '../../components/AuthContext';
 import { categories } from '../../data/categories';
 import Image from 'next/image';
+import { Product } from '@/data/products';
 
 // Simple categories array instead of importing
 const categoryList = categories.map(cat => cat.name);
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  category: string;
-  image: string;
-  description?: string;
-  stock?: number;
-  rating?: number;
-  totalReviews?: number;
-  warranty?: string;
-  shipping?: string;
-  returnPolicy?: string;
-  features?: string[];
-  images?: string[];
-  discount?: number;
-  isFeatured?: boolean;
-  isActive?: boolean;
-}
 
 interface Order {
   id: string;
   userId: string;
   userEmail: string;
-  items: any[];
+  items: Product[];
   total: number;
   status: string;
-  createdAt: any;
+  createdAt: Date | string;
 }
 
 interface User {
   id: string;
   email: string;
   role: string;
-  createdAt: any;
+  createdAt: Date | string;
 }
 
 export default function AdminPanel() {
@@ -602,7 +583,7 @@ export default function AdminPanel() {
                           <h3 className="font-semibold text-blue-700">Order #{order.id.slice(-6)}</h3>
                           <p className="text-sm text-gray-600">{order.userEmail}</p>
                           <p className="text-xs text-gray-500">
-                            {order.createdAt?.toDate ? order.createdAt.toDate().toLocaleString() : 'Unknown date'}
+                            {order.createdAt instanceof Date ? order.createdAt.toLocaleString() : order.createdAt}
                           </p>
                         </div>
                         <div className="text-right">
@@ -621,7 +602,7 @@ export default function AdminPanel() {
                         </div>
                       </div>
                       <div className="space-y-2">
-                        {order.items?.map((item: any, index: number) => (
+                        {order.items?.map((item: Product, index: number) => (
                           <div key={index} className="flex items-center gap-3 text-sm">
                             {item.image && item.image.trim() !== '' ? (
                               <Image src={item.image} alt={item.name} width={32} height={32} className="h-8 w-8 object-contain rounded bg-gray-100" />
@@ -629,7 +610,7 @@ export default function AdminPanel() {
                               <div className="h-8 w-8 bg-gray-100 flex items-center justify-center text-gray-400 rounded text-xs">No Image</div>
                             )}
                             <span className="flex-1">{item.name}</span>
-                            <span className="text-gray-600">Qty: {item.quantity}</span>
+                            <span className="text-gray-600">Qty: {item.stock}</span>
                             <span className="font-medium">${isNaN(item.price) ? '0.00' : item.price.toFixed(2)}</span>
                           </div>
                         ))}
@@ -656,7 +637,7 @@ export default function AdminPanel() {
                         <h3 className="font-semibold text-blue-700">{user.email}</h3>
                         <p className="text-sm text-gray-600">User ID: {user.id}</p>
                         <p className="text-xs text-gray-500">
-                          {user.createdAt?.toDate ? user.createdAt.toDate().toLocaleString() : 'Unknown date'}
+                          {user.createdAt instanceof Date ? user.createdAt.toLocaleString() : user.createdAt}
                         </p>
                       </div>
                       <div className="flex items-center gap-3">

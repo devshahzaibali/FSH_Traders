@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { db } from '../../firebase';
 import { collection, query, where, onSnapshot, orderBy } from 'firebase/firestore';
 import React from 'react';
+import { Product } from '@/data/products';
 
 const AccountPage = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -128,7 +129,7 @@ const AccountPage = () => {
                     </span>
                   </div>
                   <div className="space-y-2">
-                    {order.items.map((item: any) => (
+                    {order.items.map((item: Product) => (
                       <div key={item.id} className="flex items-center gap-3">
                         {item.image ? (
                           <img src={item.image} alt={item.name} className="h-10 w-10 object-contain rounded bg-gray-100" />

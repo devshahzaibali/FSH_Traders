@@ -13,6 +13,7 @@ import dynamic from 'next/dynamic';
 import { HeartIcon as HeartIconOutline } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 import { useWishlist } from '@/components/WishlistContext';
+import { Product } from '@/data/products';
 
 const SliderSection = dynamic(() => import('../../components/SliderSection'), { ssr: false });
 
@@ -30,9 +31,8 @@ const sliderImages = [
 
 const CatalogPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const { addToCart } = useCart();
-  const [addedId, setAddedId] = useState<string | null>(null);
   const { user } = useAuth();
   const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);

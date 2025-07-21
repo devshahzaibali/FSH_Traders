@@ -6,19 +6,20 @@ import { doc, getDoc } from 'firebase/firestore';
 import Link from 'next/link';
 import Image from 'next/image';
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
+import { Product } from '@/data/products';
 
 export default function WishlistPage() {
   const { wishlist, removeFromWishlist } = useWishlist();
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const prods: any[] = [];
+      const prods: Product[] = [];
       for (const id of wishlist) {
         try {
           const snap = await getDoc(doc(db, 'products', id));
           if (snap.exists()) {
-            prods.push({ id: snap.id, ...snap.data() });
+            prods.push({ id: snap.id, ...snap.data() } as Product);
           }
         } catch {}
       }

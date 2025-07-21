@@ -13,6 +13,7 @@ import { use } from 'react';
 import { HeartIcon as HeartIconOutline } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 import { useWishlist } from '../../../components/WishlistContext';
+import { Product } from '@/data/products';
 
 interface CategoryPageProps {
   params: { category: string };
@@ -20,10 +21,9 @@ interface CategoryPageProps {
 
 const CategoryPage: React.FC<{ params: Promise<{ category: string }> }> = ({ params }) => {
   const { category } = use(params);
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const { addToWishlist, removeFromWishlist, toggleWishlist, isWishlisted } = useWishlist();
   const { addToCart } = useCart();
-  const [addedId, setAddedId] = useState<string | null>(null);
   const { user } = useAuth();
   const router = useRouter();
 

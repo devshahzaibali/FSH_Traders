@@ -7,9 +7,10 @@ import { HeartIcon as HeartIconOutline } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 import { useWishlist } from './WishlistContext';
 import { useCart } from './CartContext';
+import { Product } from '@/data/products';
 
 const HomeProducts: React.FC = () => {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const { addToWishlist, removeFromWishlist, toggleWishlist, isWishlisted } = useWishlist();
   const { addToCart } = useCart();
 
