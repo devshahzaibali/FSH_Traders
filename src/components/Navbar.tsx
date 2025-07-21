@@ -177,7 +177,7 @@ const Navbar: React.FC = () => {
                 whileTap={{ scale: 0.95 }}
               >
               <Image 
-                src="/fsh-traders.png" 
+                src="https://drive.google.com/uc?export=view&id=1WlJgB57a55CdLg1-LbcwvUXpLTvek34j" 
                 alt="FSH Traders Logo" 
                 fill 
                 className="rounded-full object-contain shadow-md" 
