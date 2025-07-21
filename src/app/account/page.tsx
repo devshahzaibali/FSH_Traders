@@ -10,6 +10,9 @@ import React from 'react';
 import { Product } from '@/data/products';
 import Image from 'next/image';
 
+// Define an OrderItem type that extends Product with quantity
+type OrderItem = Product & { quantity: number };
+
 const AccountPage = () => {
   const [userData, setUserData] = useState({
     name: 'Alex Johnson',
@@ -115,14 +118,14 @@ const AccountPage = () => {
                     </span>
                   </div>
                   <div className="space-y-2">
-                    {order.items.map((item: Product) => (
+                    {order.items.map((item: OrderItem) => (
                       <div key={item.id} className="flex items-center gap-3">
                         {item.image ? (
                           <Image src={item.image} alt={item.name} width={40} height={40} className="h-10 w-10 object-contain rounded bg-gray-100" />
                         ) : (
                           <div className="h-10 w-10 bg-gray-100 flex items-center justify-center text-gray-400 rounded">No Image</div>
                         )}
-                      <div>
+                        <div>
                           <div className="font-medium text-gray-900">{item.name}</div>
                           <div className="text-gray-500 text-sm">Qty: {item.quantity} &bull; ${isNaN(item.price) ? '0.00' : item.price.toFixed(2)}</div>
                         </div>
