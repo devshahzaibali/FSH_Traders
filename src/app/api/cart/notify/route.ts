@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
                   </tr>
                 </thead>
                 <tbody>
-                  ${cart.map((item: any) => `
+                  ${cart.map((item: { name: string; quantity: number; price: number }) => `
                     <tr>
                       <td style="padding: 10px; border-bottom: 1px solid #f1f5f9;">${item.name}</td>
                       <td style="padding: 10px; text-align: center; border-bottom: 1px solid #f1f5f9;">${item.quantity}</td>

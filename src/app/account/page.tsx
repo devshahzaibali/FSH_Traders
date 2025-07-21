@@ -1,9 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import { useCart } from '@/components/CartContext';
 import { useAuth } from '@/components/AuthContext';
-import { useRouter } from 'next/navigation';
 import { db } from '../../firebase';
 import { collection, query, where, onSnapshot, orderBy } from 'firebase/firestore';
 import React from 'react';
@@ -14,24 +12,6 @@ import Image from 'next/image';
 type OrderItem = Product & { quantity: number };
 
 const AccountPage = () => {
-  const [userData, setUserData] = useState({
-    name: 'Alex Johnson',
-    email: 'alex.johnson@example.com',
-    phone: '+1 (555) 123-4567',
-    address: '123 Main St, Apt 4B, New York, NY 10001',
-    membership: 'Premium',
-    joinDate: 'January 15, 2022',
-    orderHistory: [
-      { id: '#ORD-78945', date: 'Jun 12, 2023', total: '$149.99', status: 'Delivered' },
-      { id: '#ORD-78123', date: 'May 28, 2023', total: '$89.50', status: 'Delivered' },
-      { id: '#ORD-77654', date: 'Apr 5, 2023', total: '$234.95', status: 'Delivered' },
-    ],
-    wishlist: [
-      { id: 1, name: 'Wireless Headphones', price: '$129.99', image: '/products/headphones.jpg' },
-      { id: 2, name: 'Smart Watch', price: '$199.99', image: '/products/watch.jpg' },
-    ],
-  });
-
   const { user, logout } = useAuth();
   const [orders, setOrders] = useState<any[]>([]);
   
@@ -65,9 +45,9 @@ const AccountPage = () => {
         <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-900">My Account</h1>
           <div className="flex items-center space-x-4">
-            <span className="text-sm text-gray-600">Welcome back, {userData.name}</span>
+            <span className="text-sm text-gray-600">Welcome back, {user.displayName}</span>
             <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">
-              {userData.name.charAt(0)}
+              {user.displayName?.charAt(0)}
             </div>
           </div>
         </div>

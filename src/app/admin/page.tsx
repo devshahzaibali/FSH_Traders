@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { FiEdit, FiTrash2, FiPackage, FiUsers, FiShoppingCart, FiBarChart } from "react-icons/fi";
+import { FiEdit, FiTrash2, FiPackage, FiUsers, FiShoppingCart } from "react-icons/fi";
 import { db } from '../../firebase';
 import { collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy } from "firebase/firestore";
 import { useAuth } from '../../components/AuthContext';
