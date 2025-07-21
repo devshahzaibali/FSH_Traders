@@ -7,13 +7,14 @@ import { collection, query, where, onSnapshot, orderBy } from 'firebase/firestor
 import React from 'react';
 import { Product } from '@/data/products';
 import Image from 'next/image';
+import Link from 'next/link';
 
 // Define an OrderItem type that extends Product with quantity
 type OrderItem = Product & { quantity: number };
 
 const AccountPage = () => {
   const { user, logout } = useAuth();
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<OrderItem[]>([]);
   
   useEffect(() => {
     if (!user) return;
@@ -29,7 +30,9 @@ const AccountPage = () => {
       <main className="max-w-md mx-auto py-16 px-4 text-center">
         <h1 className="text-3xl font-bold text-blue-900 mb-6">Account</h1>
         <p className="mb-4">You must be logged in to view your account.</p>
-        <a href="/login" className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded">Login</a>
+        <Link href="/login">
+          <a className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded">Login</a>
+        </Link>
       </main>
     );
   }

@@ -207,7 +207,7 @@ export default function Footer() {
             {/* Social links */}
             <div className="flex space-x-6 mb-4 md:mb-0">
               {socialLinks.map((social) => (
-                <a
+                <Link
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
@@ -215,7 +215,7 @@ export default function Footer() {
                 >
                   <span className="sr-only">{social.label}</span>
                   <span className="h-6 w-6">{social.icon}</span>
-                </a>
+                </Link>
               ))}
             </div>
 

@@ -25,8 +25,6 @@ interface Product {
   description?: string;
   stock?: number;
   rating?: number;
-  totalReviews?: number;
-  warranty?: string;
   shipping?: string;
   returnPolicy?: string;
   features?: string[];
