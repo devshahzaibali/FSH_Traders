@@ -6,6 +6,7 @@ import { useAuth } from '@/components/AuthContext';
 import { useRouter } from 'next/navigation';
 import { db } from '../../firebase';
 import { collection, query, where, onSnapshot, orderBy } from 'firebase/firestore';
+import React from 'react';
 
 const AccountPage = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -53,7 +54,7 @@ const AccountPage = () => {
     );
   }
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserData(prev => ({ ...prev, [name]: value }));
   };
