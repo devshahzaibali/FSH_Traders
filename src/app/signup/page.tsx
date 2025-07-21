@@ -82,13 +82,16 @@ export default function SignupPage() {
       setSuccess('Account created successfully! Redirecting...');
       setTimeout(() => router.push('/account'), 1500);
     } catch (err: unknown) {
+      setLoading(false);
       if (err instanceof Error) {
         setError(err.message || 'Failed to create account');
       } else {
         setError('Failed to create account');
       }
-    } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setError('');
+        setLoading(false);
+      }, 3000);
     }
   };
 
@@ -100,13 +103,16 @@ export default function SignupPage() {
       setSuccess('Signed in with Google successfully!');
       setTimeout(() => router.push('/account'), 1500);
     } catch (err: unknown) {
+      setLoading(false);
       if (err instanceof Error) {
         setError(err.message || 'Failed to sign in with Google');
       } else {
         setError('Failed to sign in with Google');
       }
-    } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setError('');
+        setLoading(false);
+      }, 3000);
     }
   };
 

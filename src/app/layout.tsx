@@ -49,11 +49,11 @@ export default function RootLayout({
         <CartProvider>
           <AuthProvider>
             <WishlistProvider>
-              <AuthRedirect>
-                <Navbar />
-                <div>{children}</div>
-                <Footer />
-              </AuthRedirect>
+            <AuthRedirect>
+        <Navbar />
+        <div>{children}</div>
+              <Footer />
+            </AuthRedirect>
             </WishlistProvider>
           </AuthProvider>
         </CartProvider>

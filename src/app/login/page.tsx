@@ -24,13 +24,14 @@ export default function LoginPage() {
     e.preventDefault();
     setError('');
     setSuccess('');
+    setLoading(true);
     try {
       await login(email, password);
     } catch (err: unknown) {
+      setLoading(false); // Stop loading on error
       if (err instanceof Error) {
         if (err.message.includes('user-not-found') || err.message.includes('wrong-password')) {
           setError('❌ Wrong email or password. Please check your credentials and try again.');
-          // Clear form fields
           setEmail('');
           setPassword('');
         } else {
@@ -39,19 +40,30 @@ export default function LoginPage() {
       } else {
         setError('Login failed');
       }
+      // Auto-reset error and loading after 3 seconds
+      setTimeout(() => {
+        setError('');
+        setLoading(false);
+      }, 3000);
     }
   };
 
   const handleGoogleLogin = async () => {
     setError('');
+    setLoading(true);
     try {
       await loginWithGoogle();
     } catch (err: unknown) {
+      setLoading(false);
       if (err instanceof Error) {
         setError(err.message || 'Google login failed');
       } else {
         setError('Google login failed');
       }
+      setTimeout(() => {
+        setError('');
+        setLoading(false);
+      }, 3000);
     }
   };
 
