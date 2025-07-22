@@ -124,29 +124,7 @@ const HeroSection: React.FC = () => {
 
       <div className="relative z-10 w-full max-w-6xl mx-auto flex flex-col items-center justify-center">
         {/* Logo and Headline - Fixed positioning */}
-        <motion.div 
-          className="mb-3 sm:mb-4 flex justify-center"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <Link href="/" passHref>
-            <motion.div 
-              className="relative w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 group"
-              whileHover={{ rotate: 15, scale: 1.1 }}
-              transition={{ type: 'spring', stiffness: 300 }}
-            >
-          <Image 
-            src="https://res.cloudinary.com/dn8bhbwie/image/upload/v1753115119/fsh-traders_g584tb.png" 
-            alt="FSH Traders Logo" 
-            fill
-              className="rounded-full object-contain drop-shadow-lg group-hover:drop-shadow-xl"
-                sizes="(max-width: 640px) 56px, (max-width: 768px) 64px, 80px, 96px"
-            priority
-          />
-            </motion.div>
-          </Link>
-        </motion.div>
+        {/* Removed logo rendering */}
 
         <motion.h1 
           className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 sm:mb-3 text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-blue-900 tracking-tight leading-tight animate-gradient-shift"
@@ -180,34 +158,7 @@ const HeroSection: React.FC = () => {
           </motion.span>
         </motion.p>
 
-        {/* Add slider rendering logic (if not present, add a simple slider below the headline) */}
-        {sliderImages.length > 0 && (
-          <div className="relative w-full max-w-2xl mx-auto mt-6 mb-8">
-            <div className="relative w-full h-64 sm:h-80 md:h-96 rounded-xl overflow-hidden shadow-lg bg-white">
-              {sliderImages.map((img, idx) => (
-                <Image
-                  key={img}
-                  src={img}
-                  alt={`Slider Image ${idx + 1}`}
-                  fill
-                  className={`absolute top-0 left-0 w-full h-full object-contain transition-opacity duration-700 bg-white ${currentFeature === idx ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
-                  style={{transitionProperty: 'opacity'}}
-                  draggable={false}
-                />
-              ))}
-            </div>
-            {/* Dot indicators */}
-            <div className="flex justify-center gap-2 mt-3 absolute bottom-4 left-1/2 -translate-x-1/2 z-20">
-              {sliderImages.map((_, idx) => (
-                <span
-                  key={idx}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 border border-blue-300 ${currentFeature === idx ? 'bg-blue-600 scale-125 shadow border-blue-600' : 'bg-blue-200'}`}
-                  style={{ display: 'inline-block' }}
-                />
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Removed slider rendering logic */}
 
         {/* CTA Buttons */}
         <motion.div 
