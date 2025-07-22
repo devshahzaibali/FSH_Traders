@@ -32,7 +32,22 @@ const HeroSection: React.FC = () => {
     "1000+ satisfied customers"
   ];
 
-  // Removed sliderImages and slider rotation effect
+  // Add static e-commerce slider images
+  const sliderImages = [
+    "https://images.unsplash.com/photo-1513708927688-890a1c7b6b8a?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1515168833906-d2a3b82b1e1c?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&q=80"
+  ];
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % sliderImages.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [sliderImages.length]);
 
   // Fetch products from Firestore
   useEffect(() => {
@@ -132,7 +147,34 @@ const HeroSection: React.FC = () => {
           </motion.span>
         </motion.p>
 
-        {/* Removed slider rendering logic */}
+        {/* Slider rendering logic with custom images */}
+        {sliderImages.length > 0 && (
+          <div className="relative w-full max-w-2xl mx-auto mt-6 mb-8">
+            <div className="relative w-full h-64 sm:h-80 md:h-96 rounded-xl overflow-hidden shadow-lg bg-white">
+              {sliderImages.map((img, idx) => (
+                <Image
+                  key={img}
+                  src={img}
+                  alt={`Slider Image ${idx + 1}`}
+                  fill
+                  className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-700 bg-white ${currentSlide === idx ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+                  style={{transitionProperty: 'opacity'}}
+                  draggable={false}
+                />
+              ))}
+            </div>
+            {/* Dot indicators */}
+            <div className="flex justify-center gap-2 mt-3 absolute bottom-4 left-1/2 -translate-x-1/2 z-20">
+              {sliderImages.map((_, idx) => (
+                <span
+                  key={idx}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 border border-blue-300 ${currentSlide === idx ? 'bg-blue-600 scale-125 shadow border-blue-600' : 'bg-blue-200'}`}
+                  style={{ display: 'inline-block' }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* CTA Buttons */}
         <motion.div 
