@@ -31,25 +31,7 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleSyncProducts = async () => {
-    try {
-      const response = await fetch('/api/sync-products', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      
-      if (response.ok) {
-        alert('Products synced successfully!');
-        window.location.reload();
-      } else {
-        alert('Failed to sync products');
-      }
-    } catch (error) {
-      alert('Error syncing products');
-    }
-  };
+  // Remove handleSyncProducts and related button code
 
   return (
     <div className="flex flex-col items-center w-full min-h-screen bg-white pt-20">
