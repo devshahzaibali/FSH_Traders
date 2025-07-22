@@ -32,17 +32,8 @@ const HeroSection: React.FC = () => {
     "1000+ satisfied customers"
   ];
 
-  const sliderImages = [
-    '/slider p/p0001.jpg',
-    '/slider p/p0002.jpg',
-    '/slider p/p0003.jpg',
-    '/slider p/p0004.jpg',
-    '/slider p/p0005.jpg',
-    '/slider p/p0006.jpg',
-    '/slider p/p0007.jpg',
-    '/slider p/p0008.jpg',
-    '/slider p/p0009.jpg',
-  ];
+  // Replace static sliderImages with dynamic product images
+  const sliderImages = allProducts.map(p => p.image).filter(Boolean);
 
   // Handle scroll effect
   useEffect(() => {
@@ -146,7 +137,7 @@ const HeroSection: React.FC = () => {
               transition={{ type: 'spring', stiffness: 300 }}
             >
           <Image 
-            src="/fsh-traders.png" 
+            src="https://res.cloudinary.com/dn8bhbwie/image/upload/v1753115119/fsh-traders_g584tb.png" 
             alt="FSH Traders Logo" 
             fill
               className="rounded-full object-contain drop-shadow-lg group-hover:drop-shadow-xl"
@@ -188,6 +179,35 @@ const HeroSection: React.FC = () => {
             New arrivals every week!
           </motion.span>
         </motion.p>
+
+        {/* Add slider rendering logic (if not present, add a simple slider below the headline) */}
+        {sliderImages.length > 0 && (
+          <div className="relative w-full max-w-2xl mx-auto mt-6 mb-8">
+            <div className="relative w-full h-64 sm:h-80 md:h-96 rounded-xl overflow-hidden shadow-lg bg-white">
+              {sliderImages.map((img, idx) => (
+                <Image
+                  key={img}
+                  src={img}
+                  alt={`Slider Image ${idx + 1}`}
+                  fill
+                  className={`absolute top-0 left-0 w-full h-full object-contain transition-opacity duration-700 bg-white ${currentFeature === idx ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+                  style={{transitionProperty: 'opacity'}}
+                  draggable={false}
+                />
+              ))}
+            </div>
+            {/* Dot indicators */}
+            <div className="flex justify-center gap-2 mt-3 absolute bottom-4 left-1/2 -translate-x-1/2 z-20">
+              {sliderImages.map((_, idx) => (
+                <span
+                  key={idx}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 border border-blue-300 ${currentFeature === idx ? 'bg-blue-600 scale-125 shadow border-blue-600' : 'bg-blue-200'}`}
+                  style={{ display: 'inline-block' }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* CTA Buttons */}
         <motion.div 
