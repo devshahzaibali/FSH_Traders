@@ -32,33 +32,7 @@ const HeroSection: React.FC = () => {
     "1000+ satisfied customers"
   ];
 
-  // Replace static sliderImages with dynamic product images
-  const sliderImages = allProducts.map(p => p.image).filter(Boolean);
-
-  // Handle scroll effect
-  useEffect(() => {
-    const handleScroll = () => {
-      // setIsScrolled(window.scrollY > 50); // This line was removed
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Feature rotation effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentFeature((prev) => (prev + 1) % features.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [features.length]);
-
-  // Slider rotation effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // setCurrentSlide((prev) => (prev + 1) % sliderImages.length); // This line was removed
-    }, 2000);
-    return () => clearInterval(interval);
-  }, [sliderImages.length]);
+  // Removed sliderImages and slider rotation effect
 
   // Fetch products from Firestore
   useEffect(() => {
