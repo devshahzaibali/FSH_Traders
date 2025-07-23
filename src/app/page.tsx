@@ -8,6 +8,7 @@ import { useAuth } from '@/components/AuthContext';
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import BackButton from '@/components/BackButton';
+import ContactPage from './contact/page';
 
 // Remove SliderSection import and usage
 
@@ -41,6 +42,7 @@ export default function Home() {
       <HomeProducts />
       {/* Removed SliderSection below New Arrivals */}
       <CategoryGrid />
+      <ContactPage />
     </div>
   );
 }
