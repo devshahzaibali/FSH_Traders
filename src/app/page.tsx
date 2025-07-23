@@ -9,7 +9,7 @@ import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import BackButton from '@/components/BackButton';
 
-const SliderSection = dynamic(() => import('../components/SliderSection'), { ssr: false });
+// Remove SliderSection import and usage
 
 const sliderImages = [
   '/slider/pexels-dexplanet-1628026.jpg',
@@ -39,8 +39,7 @@ export default function Home() {
       <HeroSection />
       {/* Remove Sync Products button for admin users */}
       <HomeProducts />
-      {/* Slider after New Arrivals */}
-      <SliderSection />
+      {/* Removed SliderSection below New Arrivals */}
       <CategoryGrid />
     </div>
   );
